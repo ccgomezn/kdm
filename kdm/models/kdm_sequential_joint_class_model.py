@@ -52,7 +52,13 @@ class KDMSequentialJointClassModel(keras.Model):
     def call(self, input):
         encoded = keras.layers.Identity()(input)
         rho_x = encoded
+        print("rho")
+        print(rho_x)
+        print(rho_x.shape)
         rho_x = pure2dm(rho_x)
+        print("rho2")
+        print(rho_x)
+        print(rho_x.shape)
         rho_y = rho_x
         ans = []
         idx = 0
@@ -60,6 +66,8 @@ class KDMSequentialJointClassModel(keras.Model):
             idx += 1
             if seq == 'merge':
                 merged_prbs = cartesian_product(ans)
+                print("mergedddd")
+                print(merged_prbsf)
                 rho_x = merged_prbs
                 rho_x = pure2dm(rho_x)
                 rho_y = merged_prbs
@@ -69,6 +77,9 @@ class KDMSequentialJointClassModel(keras.Model):
                 rho_y = seq(rho_x)
                 probs = dm2discrete(rho_y)
                 ans.append(probs)
+        print("probsss")
+        print(probs)
+        print(probs.shape)
         return probs
 
     def init_components(self, samples_x, samples_y, init_sigma=False, sigma_mult=1, index=0, super_index=0):
